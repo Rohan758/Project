@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<robot name="log_cam" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:arg name="robot_name" default="" />
+  <xacro:arg name="tf_prefix" default="" />
+  <xacro:property name="M_PI" value="3.1415926535897931" />
+  <xacro:property name="log_cam_parent" value="base_link" />
+
+  <xacro:macro name="log_cam"
+    params="log_cam_name log_cam_px log_cam_py log_cam_pz log_cam_or log_cam_op log_cam_oy">
+
+    <link name="$(arg tf_prefix)${log_cam_name}_link"/>
+
+    <joint name="$(arg robot_name)_${log_cam_name}_joint" type="fixed">
+      <parent link="$(arg tf_prefix)${log_cam_parent}" />
+      <child link="$(arg tf_prefix)${log_cam_name}_link" />
+      <origin xyz="${log_cam_px} ${log_cam_py} ${log_cam_pz}"
+        rpy="${log_cam_or} ${log_cam_op} ${log_cam_oy}" />
+    </joint>
+
+    <link name="$(arg tf_prefix)${log_cam_name}_logical_frame" />
+
+    <joint name="$(arg robot_name)_${log_cam_name}_rgb_joint" type="fixed">
+      <parent link="$(arg tf_prefix)${log_cam_name}_link" />
+      <child link="$(arg tf_prefix)${log_cam_name}_logical_frame" />
+      <origin xyz="0 0.0125 0.016" rpy="-1.57 0 -1.57" />
+    </joint>
+
+    <gazebo reference="$(arg tf_prefix)${log_cam_name}_link">
+      <sensor name="logical_camera" type="logical_camera">
+        <plugin name="logical_camera_plugin" filename="liblogical_camera.so"/>
+          <!--topicName>TODO</topicName-->
+          <logical_camera>
+            <near>0.02</near>
+            <far>5.0</far>
+            <horizontal_fov>${60.0*M_PI/180.0}</horizontal_fov>
+            <aspect_ratio>1.778</aspect_ratio>
+          </logical_camera>
+
+          <visualize>true</visualize>
+          <always_on>true</always_on>
+          <update_rate>30</update_rate>
+      </sensor>  
+      
+    </gazebo>
+
+
+  </xacro:macro>
+</robot>
