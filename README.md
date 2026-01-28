@@ -15,11 +15,11 @@ Overhead Localization: An overhead camera provides continuous image data to the 
 
 # System Architecture
 1. Bot Design
-  Mechanism: Differential drive.
-
-  Dimensions: $50 \times 50 \times 70 \text{ cm}$.
-  
-  Sensors: Equipped with an optical camera for Aruco detection and various advanced sensors for obstacle avoidance.
+   Mechanism: Differential drive.
+   
+   Dimensions: $50 \times 50 \times 70 \text{ cm}$.
+   
+   Sensors: Equipped with an optical camera for Aruco detection and various advanced sensors for obstacle avoidance.
   
 3. Software Stack
    Simulation: Gazebo (using Building Editor for the maze).
